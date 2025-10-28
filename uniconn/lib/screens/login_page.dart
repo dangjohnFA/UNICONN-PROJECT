@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:uniconn/firebase_options.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const UnicornLoginApp());
 }
 
@@ -22,8 +30,23 @@ class UnicornLoginApp extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +132,7 @@ class LoginPage extends StatelessWidget {
 
                     // Username
                     TextField(
+                      controller: emailController, // 👈 thêm dòng này
                       decoration: InputDecoration(
                         hintText: 'Username or Email',
                         contentPadding: const EdgeInsets.symmetric(
@@ -122,6 +146,7 @@ class LoginPage extends StatelessWidget {
 
                     // Password
                     TextField(
+                      controller: passwordController, // 👈 thêm dòng này
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -139,7 +164,24 @@ class LoginPage extends StatelessWidget {
                       width: double.infinity,
                       height: 48,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                            try {
+                                final email = emailController.text.trim();
+                                final password = passwordController.text.trim();
+                              await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                email: email,
+                                password: password,
+                              );
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Login successful!')),
+                              );
+                            } on FirebaseAuthException catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Login failed: ${e.message}')),
+                              );
+                            }
+                          },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
