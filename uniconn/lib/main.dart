@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'screens/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'screens/login_page.dart'; // or whatever your first screen is
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase for all supported platforms
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const UniconnApp());
 }
 
@@ -11,13 +20,13 @@ class UniconnApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Uniconn',
       debugShowCheckedModeBanner: false,
+      title: 'Uniconn',
       theme: ThemeData(
-        fontFamily: 'Poppins',
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
       ),
-      home: const LoginPage(),
+      home: const LoginPage(), // or your main home screen
     );
   }
 }

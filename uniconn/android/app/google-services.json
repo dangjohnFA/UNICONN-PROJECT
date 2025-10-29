@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "142667221421",
+    "project_id": "uniconn-f0931",
+    "storage_bucket": "uniconn-f0931.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142667221421:android:f4e57e23360bd28a9b3924",
+        "android_client_info": {
+          "package_name": "com.example.uniconn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAEec0j-GJgtWIKgMQ7ERim9Camab08TE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
